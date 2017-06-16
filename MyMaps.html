@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Map</title>
+<script type="text/javascript" src=" https://maps.googleapis.com/maps/api/js?key=AIzaSyCbfSBInJ4BG9Q9iqeQKuBX5sKsYt-qMsU " ></script>
+  <style>
+  #mapcanvas {
+    height: 500px;
+    background-color: #aaaaaa;
+  }
+  </style>
+  </head>
+<body>
+  <h1>Using Google Maps</h1>
+  <div id="mapcanvas"></div>
+</body>
+<script>
+  var map;
+
+  var geocoder = new google.maps.Geocoder ();
+  var address = "9180 E. Via Montoya 85255, Scottsdale, AZ";
+  var geocodeOptions = {
+    address: address
+  }
+  geocoder.geocode( geocodeOptions, addressCallback );
+
+  if ("geolocaiton" in navigator) {
+    navigator.geolocaiton.getCurrentPosition( positionCallback)
+  }
+
+  function positionCallback( position ) {
+    var location = new google.maps.LatLng (position.coords.latitude,
+      position.coords.longitude);
+
+    var mapDiv = document. getElementById("mapcanvas");
+    var mapOptions = {
+      zoom: 15,
+      center: location,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map( mapDiv, mapOptions);
+
+    var geocoder = new google.maps.Geocoder ();
+    var address = "9180 E. Via Montoya 85255, Scottsdale, AZ";
+    var geocodeOptions = {
+      address: address
+
+    }
+    geocoder.geocode ( geocodeOptions, showAddress );
+  }
+
+function showAddress( results, status ) {
+  if (status == google.maps.GeocoderStatus.OK) {
+    var location = results[0].geometry.location;
+    var markerOptions = {
+      position: location,
+      map: map,
+      title: "My Home",
+      clickable: true
+    }
+    var marker = new google.maps.Marker(markerOptions);
+  }
+}
+
+  function addressCallback( results, status ) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var location =results[0].geometry.location;
+      var mapDiv = document.getElementById("mapcanvas");
+      var mapOptions = {
+        zoom: 15,
+        center: location,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      map = new google.maps.Map( mapDiv, mapOptions );
+    }
+  }
+</script>
+</html>
